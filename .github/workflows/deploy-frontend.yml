@@ -1,6 +1,6 @@
 name: Deploy (Vercel)
 
-# Preview cho mỗi PR, production khi merge vào main.
+# Preview cho mỗi PR, production khi push vào main.
 # Cần secret: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID.
 # Dự án Vercel dùng services (vercel.json ở gốc repo): backend FastAPI + frontend Next.js, một domain.
 # Root Directory của project trên Vercel để trống (gốc repo).
