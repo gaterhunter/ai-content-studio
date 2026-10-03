@@ -1,0 +1,2675 @@
+{
+ "openapi": "3.1.0",
+ "info": {
+  "title": "AI Content Studio",
+  "version": "0.1.0"
+ },
+ "paths": {
+  "/health": {
+   "get": {
+    "summary": "Health",
+    "operationId": "health_health_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/users": {
+   "post": {
+    "tags": [
+     "persona"
+    ],
+    "summary": "Create User",
+    "operationId": "create_user_api_users_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/UserCreate"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/UserOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/users/{user_id}": {
+   "delete": {
+    "tags": [
+     "persona"
+    ],
+    "summary": "Delete User",
+    "description": "Xoá toàn bộ dữ liệu của người dùng (persona, ý tưởng, nội dung, token, số liệu).",
+    "operationId": "delete_user_api_users__user_id__delete",
+    "parameters": [
+     {
+      "name": "user_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "User Id"
+      }
+     }
+    ],
+    "responses": {
+     "204": {
+      "description": "Successful Response"
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas": {
+   "post": {
+    "tags": [
+     "persona"
+    ],
+    "summary": "Create Persona",
+    "operationId": "create_persona_api_personas_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PersonaCreate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PersonaOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "tags": [
+     "persona"
+    ],
+    "summary": "List Personas",
+    "operationId": "list_personas_api_personas_get",
+    "parameters": [
+     {
+      "name": "user_id",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "User Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/PersonaOut"
+         },
+         "title": "Response List Personas Api Personas Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}": {
+   "get": {
+    "tags": [
+     "persona"
+    ],
+    "summary": "Read Persona",
+    "operationId": "read_persona_api_personas__persona_id__get",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PersonaOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "patch": {
+    "tags": [
+     "persona"
+    ],
+    "summary": "Update Persona",
+    "operationId": "update_persona_api_personas__persona_id__patch",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/PersonaUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PersonaOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}/re-extract": {
+   "post": {
+    "tags": [
+     "persona"
+    ],
+    "summary": "Re Extract",
+    "operationId": "re_extract_api_personas__persona_id__re_extract_post",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PersonaOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/trends": {
+   "post": {
+    "tags": [
+     "trend"
+    ],
+    "summary": "Add Trends",
+    "description": "MVP: nhập trend thủ công (từ quan sát, Google Trends, Creative Center...). V1 sẽ tự thu thập.",
+    "operationId": "add_trends_api_trends_post",
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "type": "array",
+        "items": {
+         "$ref": "#/components/schemas/TrendCreate"
+        },
+        "title": "Body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/TrendOut"
+         },
+         "title": "Response Add Trends Api Trends Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "get": {
+    "tags": [
+     "trend"
+    ],
+    "summary": "List Trends",
+    "operationId": "list_trends_api_trends_get",
+    "parameters": [
+     {
+      "name": "country",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "string",
+       "default": "VN",
+       "title": "Country"
+      }
+     },
+     {
+      "name": "days",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "default": 14,
+       "title": "Days"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/TrendOut"
+         },
+         "title": "Response List Trends Api Trends Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}/trends": {
+   "get": {
+    "tags": [
+     "trend"
+    ],
+    "summary": "Ranked For Persona",
+    "description": "Top 10 trend đã qua bộ lọc hợp persona và hợp thời điểm.",
+    "operationId": "ranked_for_persona_api_personas__persona_id__trends_get",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/RankedTrendOut"
+         },
+         "title": "Response Ranked For Persona Api Personas  Persona Id  Trends Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}/ideas/generate": {
+   "post": {
+    "tags": [
+     "idea"
+    ],
+    "summary": "Generate",
+    "operationId": "generate_api_personas__persona_id__ideas_generate_post",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     },
+     {
+      "name": "week_of",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Week Of"
+      }
+     }
+    ],
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/IdeaOut"
+         },
+         "title": "Response Generate Api Personas  Persona Id  Ideas Generate Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}/ideas": {
+   "get": {
+    "tags": [
+     "idea"
+    ],
+    "summary": "List Ideas",
+    "operationId": "list_ideas_api_personas__persona_id__ideas_get",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/IdeaOut"
+         },
+         "title": "Response List Ideas Api Personas  Persona Id  Ideas Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/ideas/{idea_id}": {
+   "patch": {
+    "tags": [
+     "idea"
+    ],
+    "summary": "Update Idea",
+    "operationId": "update_idea_api_ideas__idea_id__patch",
+    "parameters": [
+     {
+      "name": "idea_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Idea Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/IdeaUpdate"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/IdeaOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/ideas/{idea_id}/write": {
+   "post": {
+    "tags": [
+     "idea"
+    ],
+    "summary": "Write",
+    "operationId": "write_api_ideas__idea_id__write_post",
+    "parameters": [
+     {
+      "name": "idea_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Idea Id"
+      }
+     },
+     {
+      "name": "platform",
+      "in": "query",
+      "required": true,
+      "schema": {
+       "$ref": "#/components/schemas/Platform"
+      }
+     },
+     {
+      "name": "variants",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "type": "integer",
+       "default": 2,
+       "title": "Variants"
+      }
+     }
+    ],
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/ContentOut"
+         },
+         "title": "Response Write Api Ideas  Idea Id  Write Post"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}/daily-pack": {
+   "get": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Get Daily Pack",
+    "description": "Gói nội dung trong ngày: ý tưởng, 2 phương án cho mỗi nền tảng, giờ đăng gợi ý.",
+    "operationId": "get_daily_pack_api_personas__persona_id__daily_pack_get",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     },
+     {
+      "name": "day",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Day"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/DailyPackOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/contents/{content_id}": {
+   "patch": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Edit Content",
+    "operationId": "edit_content_api_contents__content_id__patch",
+    "parameters": [
+     {
+      "name": "content_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Content Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ContentEdit"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ContentOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/contents/{content_id}/approve": {
+   "post": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Approve",
+    "description": "Duyệt một chạm: chốt phương án này, bỏ các phương án khác, đưa vào lịch đăng.",
+    "operationId": "approve_api_contents__content_id__approve_post",
+    "parameters": [
+     {
+      "name": "content_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Content Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "anyOf": [
+         {
+          "$ref": "#/components/schemas/ApproveIn"
+         },
+         {
+          "type": "null"
+         }
+        ],
+        "title": "Body"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PublishJobOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/contents/{content_id}/reject": {
+   "post": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Reject",
+    "operationId": "reject_api_contents__content_id__reject_post",
+    "parameters": [
+     {
+      "name": "content_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Content Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/ContentOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}/calendar": {
+   "get": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Calendar",
+    "operationId": "calendar_api_personas__persona_id__calendar_get",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     },
+     {
+      "name": "start",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "Start"
+      }
+     },
+     {
+      "name": "end",
+      "in": "query",
+      "required": false,
+      "schema": {
+       "anyOf": [
+        {
+         "type": "string",
+         "format": "date"
+        },
+        {
+         "type": "null"
+        }
+       ],
+       "title": "End"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "type": "array",
+         "items": {
+          "$ref": "#/components/schemas/PublishJobOut"
+         },
+         "title": "Response Calendar Api Personas  Persona Id  Calendar Get"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/publish-jobs/{job_id}/posted": {
+   "post": {
+    "tags": [
+     "content"
+    ],
+    "summary": "Mark Posted",
+    "description": "MVP đăng thủ công: người dùng tự đăng rồi đánh dấu đã đăng (kèm link bài).",
+    "operationId": "mark_posted_api_publish_jobs__job_id__posted_post",
+    "parameters": [
+     {
+      "name": "job_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Job Id"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MarkPostedIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/PublishJobOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/metrics": {
+   "post": {
+    "tags": [
+     "analytics"
+    ],
+    "summary": "Add Metric",
+    "operationId": "add_metric_api_metrics_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/MetricIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/revenues": {
+   "post": {
+    "tags": [
+     "analytics"
+    ],
+    "summary": "Add Revenue",
+    "operationId": "add_revenue_api_revenues_post",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/RevenueIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "201": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/personas/{persona_id}/report": {
+   "get": {
+    "tags": [
+     "analytics"
+    ],
+    "summary": "Report",
+    "operationId": "report_api_personas__persona_id__report_get",
+    "parameters": [
+     {
+      "name": "persona_id",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "integer",
+       "title": "Persona Id"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {}
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/settings": {
+   "get": {
+    "tags": [
+     "settings"
+    ],
+    "summary": "Read Settings",
+    "description": "Trạng thái cài đặt AI. Không bao giờ trả lại khóa, chỉ 4 ký tự cuối.",
+    "operationId": "read_settings_api_settings_get",
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SettingsOut"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/settings/provider": {
+   "put": {
+    "tags": [
+     "settings"
+    ],
+    "summary": "Choose Provider",
+    "operationId": "choose_provider_api_settings_provider_put",
+    "requestBody": {
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ProviderIn"
+       }
+      }
+     },
+     "required": true
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SettingsOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/settings/keys/{provider}": {
+   "put": {
+    "tags": [
+     "settings"
+    ],
+    "summary": "Save Key",
+    "operationId": "save_key_api_settings_keys__provider__put",
+    "parameters": [
+     {
+      "name": "provider",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Provider"
+      }
+     }
+    ],
+    "requestBody": {
+     "required": true,
+     "content": {
+      "application/json": {
+       "schema": {
+        "$ref": "#/components/schemas/ApiKeyIn"
+       }
+      }
+     }
+    },
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SettingsOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   },
+   "delete": {
+    "tags": [
+     "settings"
+    ],
+    "summary": "Remove Key",
+    "operationId": "remove_key_api_settings_keys__provider__delete",
+    "parameters": [
+     {
+      "name": "provider",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Provider"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/SettingsOut"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  },
+  "/api/settings/test/{provider}": {
+   "post": {
+    "tags": [
+     "settings"
+    ],
+    "summary": "Test Connection",
+    "description": "Gọi thử một yêu cầu nhỏ bằng khóa đã lưu để biết khóa dùng được không.",
+    "operationId": "test_connection_api_settings_test__provider__post",
+    "parameters": [
+     {
+      "name": "provider",
+      "in": "path",
+      "required": true,
+      "schema": {
+       "type": "string",
+       "title": "Provider"
+      }
+     }
+    ],
+    "responses": {
+     "200": {
+      "description": "Successful Response",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/TestResult"
+        }
+       }
+      }
+     },
+     "422": {
+      "description": "Validation Error",
+      "content": {
+       "application/json": {
+        "schema": {
+         "$ref": "#/components/schemas/HTTPValidationError"
+        }
+       }
+      }
+     }
+    }
+   }
+  }
+ },
+ "components": {
+  "schemas": {
+   "ApiKeyIn": {
+    "properties": {
+     "api_key": {
+      "type": "string",
+      "maxLength": 512,
+      "minLength": 8,
+      "title": "Api Key"
+     }
+    },
+    "type": "object",
+    "required": [
+     "api_key"
+    ],
+    "title": "ApiKeyIn"
+   },
+   "ApproveIn": {
+    "properties": {
+     "scheduled_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Scheduled At"
+     }
+    },
+    "type": "object",
+    "title": "ApproveIn"
+   },
+   "ContentEdit": {
+    "properties": {
+     "hook": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hook"
+     },
+     "script": {
+      "anyOf": [
+       {
+        "items": {
+         "additionalProperties": true,
+         "type": "object"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Script"
+     },
+     "long_post": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Long Post"
+     },
+     "caption": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Caption"
+     },
+     "hashtags": {
+      "anyOf": [
+       {
+        "items": {
+         "type": "string"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hashtags"
+     },
+     "cta": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Cta"
+     }
+    },
+    "type": "object",
+    "title": "ContentEdit"
+   },
+   "ContentOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "idea_id": {
+      "type": "integer",
+      "title": "Idea Id"
+     },
+     "platform": {
+      "$ref": "#/components/schemas/Platform"
+     },
+     "variant": {
+      "type": "integer",
+      "title": "Variant"
+     },
+     "hook": {
+      "type": "string",
+      "title": "Hook"
+     },
+     "script": {
+      "items": {
+       "additionalProperties": true,
+       "type": "object"
+      },
+      "type": "array",
+      "title": "Script"
+     },
+     "long_post": {
+      "type": "string",
+      "title": "Long Post"
+     },
+     "caption": {
+      "type": "string",
+      "title": "Caption"
+     },
+     "hashtags": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Hashtags"
+     },
+     "cta": {
+      "type": "string",
+      "title": "Cta"
+     },
+     "voice_score": {
+      "type": "number",
+      "title": "Voice Score"
+     },
+     "compliance": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Compliance"
+     },
+     "review_status": {
+      "$ref": "#/components/schemas/ReviewStatus"
+     },
+     "edited": {
+      "type": "boolean",
+      "title": "Edited"
+     },
+     "approved_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Approved At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "idea_id",
+     "platform",
+     "variant",
+     "hook",
+     "script",
+     "long_post",
+     "caption",
+     "hashtags",
+     "cta",
+     "voice_score",
+     "compliance",
+     "review_status",
+     "edited",
+     "approved_at"
+    ],
+    "title": "ContentOut"
+   },
+   "DailyItem": {
+    "properties": {
+     "platform": {
+      "type": "string",
+      "title": "Platform"
+     },
+     "suggested_time": {
+      "type": "string",
+      "title": "Suggested Time"
+     },
+     "drafts": {
+      "items": {
+       "$ref": "#/components/schemas/ContentOut"
+      },
+      "type": "array",
+      "title": "Drafts"
+     }
+    },
+    "type": "object",
+    "required": [
+     "platform",
+     "suggested_time",
+     "drafts"
+    ],
+    "title": "DailyItem"
+   },
+   "DailyPackOut": {
+    "properties": {
+     "date": {
+      "type": "string",
+      "title": "Date"
+     },
+     "persona_id": {
+      "type": "integer",
+      "title": "Persona Id"
+     },
+     "idea": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/IdeaOut"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "items": {
+      "items": {
+       "$ref": "#/components/schemas/DailyItem"
+      },
+      "type": "array",
+      "title": "Items"
+     }
+    },
+    "type": "object",
+    "required": [
+     "date",
+     "persona_id",
+     "idea",
+     "items"
+    ],
+    "title": "DailyPackOut"
+   },
+   "FunnelStage": {
+    "type": "string",
+    "enum": [
+     "attract",
+     "trust",
+     "sell"
+    ],
+    "title": "FunnelStage"
+   },
+   "HTTPValidationError": {
+    "properties": {
+     "detail": {
+      "items": {
+       "$ref": "#/components/schemas/ValidationError"
+      },
+      "type": "array",
+      "title": "Detail"
+     }
+    },
+    "type": "object",
+    "title": "HTTPValidationError"
+   },
+   "IdeaOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "persona_id": {
+      "type": "integer",
+      "title": "Persona Id"
+     },
+     "trend_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Trend Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "angle": {
+      "type": "string",
+      "title": "Angle"
+     },
+     "reason": {
+      "type": "string",
+      "title": "Reason"
+     },
+     "funnel_stage": {
+      "$ref": "#/components/schemas/FunnelStage"
+     },
+     "planned_for": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Planned For"
+     },
+     "status": {
+      "$ref": "#/components/schemas/IdeaStatus"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "persona_id",
+     "trend_id",
+     "title",
+     "angle",
+     "reason",
+     "funnel_stage",
+     "planned_for",
+     "status"
+    ],
+    "title": "IdeaOut"
+   },
+   "IdeaStatus": {
+    "type": "string",
+    "enum": [
+     "proposed",
+     "selected",
+     "dropped"
+    ],
+    "title": "IdeaStatus"
+   },
+   "IdeaUpdate": {
+    "properties": {
+     "status": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/IdeaStatus"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "planned_for": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Planned For"
+     },
+     "title": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Title"
+     },
+     "angle": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Angle"
+     }
+    },
+    "type": "object",
+    "title": "IdeaUpdate"
+   },
+   "MarkPostedIn": {
+    "properties": {
+     "post_url": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Post Url"
+     }
+    },
+    "type": "object",
+    "title": "MarkPostedIn"
+   },
+   "MetricIn": {
+    "properties": {
+     "content_id": {
+      "type": "integer",
+      "title": "Content Id"
+     },
+     "day": {
+      "type": "string",
+      "format": "date",
+      "title": "Day"
+     },
+     "views": {
+      "type": "integer",
+      "title": "Views",
+      "default": 0
+     },
+     "avg_watch_ratio": {
+      "type": "number",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Avg Watch Ratio",
+      "default": 0
+     },
+     "saves": {
+      "type": "integer",
+      "title": "Saves",
+      "default": 0
+     },
+     "shares": {
+      "type": "integer",
+      "title": "Shares",
+      "default": 0
+     },
+     "conversions": {
+      "type": "integer",
+      "title": "Conversions",
+      "default": 0
+     }
+    },
+    "type": "object",
+    "required": [
+     "content_id",
+     "day"
+    ],
+    "title": "MetricIn"
+   },
+   "PersonaCreate": {
+    "properties": {
+     "user_id": {
+      "type": "integer",
+      "title": "User Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "niche": {
+      "type": "string",
+      "title": "Niche"
+     },
+     "country": {
+      "type": "string",
+      "title": "Country",
+      "default": "VN"
+     },
+     "revenue_goal": {
+      "$ref": "#/components/schemas/RevenueGoal"
+     },
+     "platforms": {
+      "items": {
+       "$ref": "#/components/schemas/Platform"
+      },
+      "type": "array",
+      "title": "Platforms",
+      "default": [
+       "tiktok",
+       "reels"
+      ]
+     },
+     "questionnaire": {
+      "$ref": "#/components/schemas/Questionnaire",
+      "default": {
+       "about_me": "",
+       "audience": "",
+       "tone": "",
+       "values": [],
+       "banned_topics": [],
+       "catchphrases": [],
+       "differentiators": [],
+       "products_or_offers": ""
+      }
+     },
+     "sample_posts": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "maxItems": 10,
+      "title": "Sample Posts"
+     }
+    },
+    "type": "object",
+    "required": [
+     "user_id",
+     "name",
+     "niche",
+     "revenue_goal"
+    ],
+    "title": "PersonaCreate"
+   },
+   "PersonaOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "user_id": {
+      "type": "integer",
+      "title": "User Id"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     },
+     "niche": {
+      "type": "string",
+      "title": "Niche"
+     },
+     "country": {
+      "type": "string",
+      "title": "Country"
+     },
+     "revenue_goal": {
+      "$ref": "#/components/schemas/RevenueGoal"
+     },
+     "platforms": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Platforms"
+     },
+     "questionnaire": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Questionnaire"
+     },
+     "sample_posts": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Sample Posts"
+     },
+     "voice_profile": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Voice Profile"
+     },
+     "posting_times": {
+      "additionalProperties": true,
+      "type": "object",
+      "title": "Posting Times"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "user_id",
+     "name",
+     "niche",
+     "country",
+     "revenue_goal",
+     "platforms",
+     "questionnaire",
+     "sample_posts",
+     "voice_profile",
+     "posting_times"
+    ],
+    "title": "PersonaOut"
+   },
+   "PersonaUpdate": {
+    "properties": {
+     "niche": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Niche"
+     },
+     "revenue_goal": {
+      "anyOf": [
+       {
+        "$ref": "#/components/schemas/RevenueGoal"
+       },
+       {
+        "type": "null"
+       }
+      ]
+     },
+     "platforms": {
+      "anyOf": [
+       {
+        "items": {
+         "$ref": "#/components/schemas/Platform"
+        },
+        "type": "array"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Platforms"
+     },
+     "voice_profile": {
+      "anyOf": [
+       {
+        "additionalProperties": true,
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Voice Profile"
+     },
+     "posting_times": {
+      "anyOf": [
+       {
+        "additionalProperties": {
+         "items": {
+          "type": "string"
+         },
+         "type": "array"
+        },
+        "type": "object"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Posting Times"
+     }
+    },
+    "type": "object",
+    "title": "PersonaUpdate"
+   },
+   "Platform": {
+    "type": "string",
+    "enum": [
+     "tiktok",
+     "reels",
+     "shorts",
+     "facebook"
+    ],
+    "title": "Platform"
+   },
+   "ProviderIn": {
+    "properties": {
+     "provider": {
+      "type": "string",
+      "pattern": "^(mock|gemini|anthropic)$",
+      "title": "Provider"
+     }
+    },
+    "type": "object",
+    "required": [
+     "provider"
+    ],
+    "title": "ProviderIn"
+   },
+   "ProviderStatus": {
+    "properties": {
+     "configured": {
+      "type": "boolean",
+      "title": "Configured"
+     },
+     "source": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Source"
+     },
+     "masked": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Masked"
+     },
+     "error": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Error"
+     },
+     "writer_model": {
+      "type": "string",
+      "title": "Writer Model"
+     },
+     "fast_model": {
+      "type": "string",
+      "title": "Fast Model"
+     }
+    },
+    "type": "object",
+    "required": [
+     "configured",
+     "source",
+     "masked",
+     "error",
+     "writer_model",
+     "fast_model"
+    ],
+    "title": "ProviderStatus"
+   },
+   "PublishJobOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "content_id": {
+      "type": "integer",
+      "title": "Content Id"
+     },
+     "platform": {
+      "$ref": "#/components/schemas/Platform"
+     },
+     "scheduled_at": {
+      "type": "string",
+      "format": "date-time",
+      "title": "Scheduled At"
+     },
+     "status": {
+      "$ref": "#/components/schemas/PublishStatus"
+     },
+     "post_url": {
+      "anyOf": [
+       {
+        "type": "string"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Post Url"
+     },
+     "posted_at": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date-time"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Posted At"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "content_id",
+     "platform",
+     "scheduled_at",
+     "status",
+     "post_url",
+     "posted_at"
+    ],
+    "title": "PublishJobOut"
+   },
+   "PublishStatus": {
+    "type": "string",
+    "enum": [
+     "scheduled",
+     "posted",
+     "skipped"
+    ],
+    "title": "PublishStatus"
+   },
+   "Questionnaire": {
+    "properties": {
+     "about_me": {
+      "type": "string",
+      "title": "About Me",
+      "default": ""
+     },
+     "audience": {
+      "type": "string",
+      "title": "Audience",
+      "default": ""
+     },
+     "tone": {
+      "type": "string",
+      "title": "Tone",
+      "default": ""
+     },
+     "values": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Values",
+      "default": []
+     },
+     "banned_topics": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Banned Topics",
+      "default": []
+     },
+     "catchphrases": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Catchphrases",
+      "default": []
+     },
+     "differentiators": {
+      "items": {
+       "type": "string"
+      },
+      "type": "array",
+      "title": "Differentiators",
+      "default": []
+     },
+     "comfortable_on_camera": {
+      "anyOf": [
+       {
+        "type": "boolean"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Comfortable On Camera"
+     },
+     "hours_per_week": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Hours Per Week"
+     },
+     "products_or_offers": {
+      "type": "string",
+      "title": "Products Or Offers",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "title": "Questionnaire",
+    "description": "Bảng hỏi 10 phút. Mọi trường đều tùy chọn để người dùng bắt đầu nhanh."
+   },
+   "RankedTrendOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "platform": {
+      "type": "string",
+      "title": "Platform"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description"
+     },
+     "popularity": {
+      "type": "number",
+      "title": "Popularity"
+     },
+     "fit": {
+      "type": "number",
+      "title": "Fit"
+     },
+     "risk": {
+      "type": "string",
+      "title": "Risk"
+     },
+     "note": {
+      "type": "string",
+      "title": "Note"
+     },
+     "days_left": {
+      "type": "integer",
+      "title": "Days Left"
+     },
+     "timing": {
+      "type": "number",
+      "title": "Timing"
+     },
+     "score": {
+      "type": "number",
+      "title": "Score"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "title",
+     "kind",
+     "platform",
+     "description",
+     "popularity",
+     "fit",
+     "risk",
+     "note",
+     "days_left",
+     "timing",
+     "score"
+    ],
+    "title": "RankedTrendOut"
+   },
+   "RevenueGoal": {
+    "type": "string",
+    "enum": [
+     "ads",
+     "affiliate",
+     "course",
+     "brand_deal"
+    ],
+    "title": "RevenueGoal"
+   },
+   "RevenueIn": {
+    "properties": {
+     "persona_id": {
+      "type": "integer",
+      "title": "Persona Id"
+     },
+     "content_id": {
+      "anyOf": [
+       {
+        "type": "integer"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Content Id"
+     },
+     "source": {
+      "$ref": "#/components/schemas/RevenueGoal"
+     },
+     "amount_vnd": {
+      "type": "integer",
+      "minimum": 0.0,
+      "title": "Amount Vnd"
+     },
+     "day": {
+      "type": "string",
+      "format": "date",
+      "title": "Day"
+     }
+    },
+    "type": "object",
+    "required": [
+     "persona_id",
+     "source",
+     "amount_vnd",
+     "day"
+    ],
+    "title": "RevenueIn"
+   },
+   "ReviewStatus": {
+    "type": "string",
+    "enum": [
+     "draft",
+     "approved",
+     "rejected"
+    ],
+    "title": "ReviewStatus"
+   },
+   "SettingsOut": {
+    "properties": {
+     "provider": {
+      "type": "string",
+      "title": "Provider"
+     },
+     "providers": {
+      "additionalProperties": {
+       "$ref": "#/components/schemas/ProviderStatus"
+      },
+      "type": "object",
+      "title": "Providers"
+     },
+     "can_store_keys": {
+      "type": "boolean",
+      "title": "Can Store Keys"
+     }
+    },
+    "type": "object",
+    "required": [
+     "provider",
+     "providers",
+     "can_store_keys"
+    ],
+    "title": "SettingsOut"
+   },
+   "TestResult": {
+    "properties": {
+     "ok": {
+      "type": "boolean",
+      "title": "Ok"
+     },
+     "provider": {
+      "type": "string",
+      "title": "Provider"
+     },
+     "message": {
+      "type": "string",
+      "title": "Message"
+     }
+    },
+    "type": "object",
+    "required": [
+     "ok",
+     "provider",
+     "message"
+    ],
+    "title": "TestResult"
+   },
+   "TrendCreate": {
+    "properties": {
+     "platform": {
+      "$ref": "#/components/schemas/Platform"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "kind": {
+      "type": "string",
+      "pattern": "^(sound|format|topic|keyword)$",
+      "title": "Kind",
+      "default": "topic"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description",
+      "default": ""
+     },
+     "country": {
+      "type": "string",
+      "title": "Country",
+      "default": "VN"
+     },
+     "popularity": {
+      "type": "number",
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Popularity",
+      "default": 0.5
+     },
+     "observed_on": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Observed On"
+     },
+     "estimated_expiry": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Estimated Expiry"
+     },
+     "source": {
+      "type": "string",
+      "title": "Source",
+      "default": "manual"
+     }
+    },
+    "type": "object",
+    "required": [
+     "platform",
+     "title"
+    ],
+    "title": "TrendCreate"
+   },
+   "TrendOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "platform": {
+      "$ref": "#/components/schemas/Platform"
+     },
+     "title": {
+      "type": "string",
+      "title": "Title"
+     },
+     "kind": {
+      "type": "string",
+      "title": "Kind"
+     },
+     "description": {
+      "type": "string",
+      "title": "Description"
+     },
+     "country": {
+      "type": "string",
+      "title": "Country"
+     },
+     "popularity": {
+      "type": "number",
+      "title": "Popularity"
+     },
+     "observed_on": {
+      "type": "string",
+      "format": "date",
+      "title": "Observed On"
+     },
+     "estimated_expiry": {
+      "anyOf": [
+       {
+        "type": "string",
+        "format": "date"
+       },
+       {
+        "type": "null"
+       }
+      ],
+      "title": "Estimated Expiry"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "platform",
+     "title",
+     "kind",
+     "description",
+     "country",
+     "popularity",
+     "observed_on",
+     "estimated_expiry"
+    ],
+    "title": "TrendOut"
+   },
+   "UserCreate": {
+    "properties": {
+     "email": {
+      "type": "string",
+      "title": "Email"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name",
+      "default": ""
+     }
+    },
+    "type": "object",
+    "required": [
+     "email"
+    ],
+    "title": "UserCreate"
+   },
+   "UserOut": {
+    "properties": {
+     "id": {
+      "type": "integer",
+      "title": "Id"
+     },
+     "email": {
+      "type": "string",
+      "title": "Email"
+     },
+     "name": {
+      "type": "string",
+      "title": "Name"
+     }
+    },
+    "type": "object",
+    "required": [
+     "id",
+     "email",
+     "name"
+    ],
+    "title": "UserOut"
+   },
+   "ValidationError": {
+    "properties": {
+     "loc": {
+      "items": {
+       "anyOf": [
+        {
+         "type": "string"
+        },
+        {
+         "type": "integer"
+        }
+       ]
+      },
+      "type": "array",
+      "title": "Location"
+     },
+     "msg": {
+      "type": "string",
+      "title": "Message"
+     },
+     "type": {
+      "type": "string",
+      "title": "Error Type"
+     },
+     "input": {
+      "title": "Input"
+     },
+     "ctx": {
+      "type": "object",
+      "title": "Context"
+     }
+    },
+    "type": "object",
+    "required": [
+     "loc",
+     "msg",
+     "type"
+    ],
+    "title": "ValidationError"
+   }
+  }
+ },
+ "servers": [
+  {
+   "url": "https://TEN-MIEN-VERCEL-CUA-BAN",
+   "description": "Thay bằng domain Vercel của bạn"
+  }
+ ]
+}

@@ -50,6 +50,10 @@ Có ba trang: **Hôm nay** (duyệt gói nội dung), **Trend** (nhập trend v�
 - Thu thập trend tự động, Video Studio (TTS, FFmpeg), Coach kiếm tiền, đăng nhập/xác thực, hàng đợi job, Alembic migration.
 - Các ngưỡng, giá gói và tỉ lệ phễu trong code là giả định ban đầu, cần kiểm chứng bằng phỏng vấn creator thật (giai đoạn 0).
 
+## Dùng giao diện khác (ví dụ Google AI Studio)
+
+Backend chỉ là REST API nên có thể gắn giao diện bất kỳ. `docs/ai-studio-prompt.md` có sẵn prompt để dán vào Google AI Studio (Build), `docs/openapi.json` là mô tả API đầy đủ. Nhớ đặt `CORS_ORIGINS` (dấu phẩy ngăn cách, hoặc `*` khi thử) để cho phép nơi giao diện mới chạy.
+
 ## CI/CD và deploy lên Vercel
 
 Một project Vercel chạy cả hai service từ `vercel.json` ở gốc repo, chung một domain: `/api/*` và `/health` vào backend FastAPI (`backend/main.py`), mọi đường dẫn khác vào frontend Next.js. Backend giữ nguyên tiền tố `/api` ở mọi route nên không cần cắt đường dẫn, và giao diện gọi API cùng domain (`frontend/.env.production` đặt `NEXT_PUBLIC_API_BASE_URL=/`) nên không cần CORS hay binding giữa hai service.
