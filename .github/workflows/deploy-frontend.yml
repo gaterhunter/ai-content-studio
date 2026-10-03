@@ -28,6 +28,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      # Backend là Python: Vercel dùng uv để build service FastAPI
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Cài uv
+        run: pip install uv
       - name: Kiểm tra secret
         run: |
           if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
