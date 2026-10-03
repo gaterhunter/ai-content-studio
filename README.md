@@ -49,3 +49,15 @@ Có ba trang: **Hôm nay** (duyệt gói nội dung), **Trend** (nhập trend v�
 - Đăng qua API chính thức TikTok/YouTube/Meta (cần xin duyệt ứng dụng, mất nhiều tuần), mã hóa và lưu token.
 - Thu thập trend tự động, Video Studio (TTS, FFmpeg), Coach kiếm tiền, đăng nhập/xác thực, hàng đợi job, Alembic migration.
 - Các ngưỡng, giá gói và tỉ lệ phễu trong code là giả định ban đầu, cần kiểm chứng bằng phỏng vấn creator thật (giai đoạn 0).
+
+## CI/CD
+
+- `.github/workflows/ci.yml`: mỗi PR và mỗi lần push main chạy `pytest` cho backend và `tsc` + `next build` cho frontend.
+- `.github/workflows/deploy-frontend.yml`: PR nào đổi `frontend/` thì tạo bản preview trên Vercel và comment link; push main thì deploy production.
+
+Thiết lập một lần:
+1. Trên Vercel tạo project từ repo này, đặt **Root Directory = `frontend`**, rồi tắt tự deploy từ Git nếu muốn chỉ deploy qua Actions.
+2. Lấy `VERCEL_ORG_ID` và `VERCEL_PROJECT_ID` (chạy `vercel link` trong repo rồi xem `.vercel/project.json`) và tạo token ở Vercel → Account Settings → Tokens.
+3. Trong GitHub → Settings → Secrets and variables → Actions: thêm secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, và variable `NEXT_PUBLIC_API_BASE_URL` (địa chỉ backend; bỏ trống thì trang chạy dữ liệu mẫu).
+
+Backend FastAPI cần nơi chạy riêng (Vercel không hợp với tiến trình dài, SQLite và hàng đợi job); chưa có deploy cho phần này.
