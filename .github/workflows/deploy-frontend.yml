@@ -1,19 +1,19 @@
-name: Deploy frontend (Vercel)
+name: Deploy (Vercel)
 
 # Preview cho mỗi PR, production khi merge vào main.
 # Cần secret: VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID.
-# Cần variable: NEXT_PUBLIC_API_BASE_URL (địa chỉ backend, bỏ trống thì chạy dữ liệu mẫu).
+# Dự án Vercel dùng services (vercel.json ở gốc repo): backend FastAPI + frontend Next.js, một domain.
+# Root Directory của project trên Vercel để trống (gốc repo).
 on:
   push:
     branches: [main]
-    paths: ["frontend/**", ".github/workflows/deploy-frontend.yml"]
+    paths: ["frontend/**", "backend/**", "vercel.json", ".github/workflows/deploy-frontend.yml"]
   pull_request:
-    paths: ["frontend/**", ".github/workflows/deploy-frontend.yml"]
+    paths: ["frontend/**", "backend/**", "vercel.json", ".github/workflows/deploy-frontend.yml"]
 
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  NEXT_PUBLIC_API_BASE_URL: ${{ vars.NEXT_PUBLIC_API_BASE_URL }}
 
 jobs:
   deploy:

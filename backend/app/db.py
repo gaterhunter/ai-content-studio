@@ -10,7 +10,16 @@ class Base(DeclarativeBase):
     pass
 
 
+def normalize_url(url: str) -> str:
+    """Nhà cung cấp Postgres (Neon, Supabase...) thường trả postgres:// hoặc postgresql://."""
+    for prefix in ("postgres://", "postgresql://"):
+        if url.startswith(prefix):
+            return "postgresql+psycopg://" + url[len(prefix):]
+    return url
+
+
 def make_engine(url: str):
+    url = normalize_url(url)
     if not url.startswith("sqlite"):
         return create_engine(url)
     eng = create_engine(url, connect_args={"check_same_thread": False})

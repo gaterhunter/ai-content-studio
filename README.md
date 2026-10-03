@@ -50,14 +50,17 @@ Có ba trang: **Hôm nay** (duyệt gói nội dung), **Trend** (nhập trend v�
 - Thu thập trend tự động, Video Studio (TTS, FFmpeg), Coach kiếm tiền, đăng nhập/xác thực, hàng đợi job, Alembic migration.
 - Các ngưỡng, giá gói và tỉ lệ phễu trong code là giả định ban đầu, cần kiểm chứng bằng phỏng vấn creator thật (giai đoạn 0).
 
-## CI/CD
+## CI/CD và deploy lên Vercel
+
+Một project Vercel chạy cả hai service từ `vercel.json` ở gốc repo, chung một domain: `/api/*` và `/health` vào backend FastAPI (`backend/main.py`), mọi đường dẫn khác vào frontend Next.js. Backend giữ nguyên tiền tố `/api` ở mọi route nên không cần cắt đường dẫn, và giao diện gọi API cùng domain (`frontend/.env.production` đặt `NEXT_PUBLIC_API_BASE_URL=/`) nên không cần CORS hay binding giữa hai service.
 
 - `.github/workflows/ci.yml`: mỗi PR và mỗi lần push main chạy `pytest` cho backend và `tsc` + `next build` cho frontend.
-- `.github/workflows/deploy-frontend.yml`: PR nào đổi `frontend/` thì tạo bản preview trên Vercel và comment link; push main thì deploy production.
+- `.github/workflows/deploy-frontend.yml`: PR đổi `frontend/`, `backend/` hoặc `vercel.json` thì tạo bản preview và comment link; push main thì deploy production.
 
 Thiết lập một lần:
-1. Trên Vercel tạo project từ repo này, đặt **Root Directory = `frontend`**, rồi tắt tự deploy từ Git nếu muốn chỉ deploy qua Actions.
-2. Lấy `VERCEL_ORG_ID` và `VERCEL_PROJECT_ID` (chạy `vercel link` trong repo rồi xem `.vercel/project.json`) và tạo token ở Vercel → Account Settings → Tokens.
-3. Trong GitHub → Settings → Secrets and variables → Actions: thêm secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`, và variable `NEXT_PUBLIC_API_BASE_URL` (địa chỉ backend; bỏ trống thì trang chạy dữ liệu mẫu).
+1. Trên Vercel tạo project từ repo này, **để trống Root Directory** (gốc repo). Nếu có mục Application Preset thì chọn Services.
+2. Biến môi trường của project: `DATABASE_URL` (Postgres, ví dụ Neon; không đặt thì backend dùng SQLite trong `/tmp`, dữ liệu mất khi instance tái tạo, chỉ để chạy thử), `LLM_PROVIDER=anthropic` và `ANTHROPIC_API_KEY` nếu muốn gọi Claude thật, `TOKEN_ENCRYPTION_KEY` khi lưu token mạng xã hội.
+3. Lấy `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` (chạy `vercel link` rồi xem `.vercel/project.json`) và tạo token ở Vercel → Account Settings → Tokens. Thêm chúng vào GitHub → Settings → Secrets and variables → Actions với tên `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`.
+4. Nếu chỉ muốn deploy qua Actions, tắt tự deploy từ Git ở Vercel (Settings → Git), nếu không mỗi lần push sẽ có hai bản deploy.
 
-Backend FastAPI cần nơi chạy riêng (Vercel không hợp với tiến trình dài, SQLite và hàng đợi job); chưa có deploy cho phần này.
+Chạy cả hai service ở máy: `vercel dev` ở gốc repo.

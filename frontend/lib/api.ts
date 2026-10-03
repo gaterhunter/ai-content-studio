@@ -1,9 +1,11 @@
 import { mock } from "./mock";
 import type { DailyPack, Draft, DraftEdit, Persona, PersonaInput, PublishJob, RankedTrend, TrendInput } from "./types";
 
-const BASE = process.env.NEXT_PUBLIC_API_BASE_URL?.replace(/\/$/, "") ?? "";
+// Không đặt biến: dữ liệu mẫu. Đặt "/" để gọi API cùng domain, hoặc một URL đầy đủ để gọi backend riêng.
+const RAW_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
+const BASE = (RAW_BASE ?? "").replace(/\/+$/, "");
 
-export const usingMock = BASE === "";
+export const usingMock = !RAW_BASE;
 
 async function http<T>(path: string, init?: RequestInit): Promise<T> {
   const res = await fetch(`${BASE}/api${path}`, {

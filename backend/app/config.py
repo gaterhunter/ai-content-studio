@@ -1,3 +1,4 @@
+import os
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -19,4 +20,9 @@ class Settings(BaseSettings):
 
 @lru_cache
 def get_settings() -> Settings:
-    return Settings()
+    s = Settings()
+    # Vercel chỉ ghi được vào /tmp và dữ liệu mất khi instance tái tạo: chỉ để chạy thử,
+    # dùng DATABASE_URL trỏ tới Postgres cho dữ liệu thật.
+    if os.environ.get("VERCEL") and s.database_url.startswith("sqlite:///./"):
+        s.database_url = "sqlite:////tmp/studio.db"
+    return s
