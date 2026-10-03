@@ -1,4 +1,4 @@
-import type { DailyPack, Draft, DraftEdit, Persona, PublishJob } from "./types";
+import type { DailyPack, Draft, DraftEdit, Persona, PersonaInput, PublishJob, RankedTrend, TrendInput } from "./types";
 
 export const mockPersona: Persona = {
   id: 1,
@@ -47,7 +47,23 @@ resetMock();
 
 const delay = <T,>(v: T) => new Promise<T>((r) => setTimeout(() => r(v), 150));
 
+let trends: RankedTrend[] = [
+  { id: 1, title: "Mẹo excel 1 phút", kind: "format", platform: "tiktok", fit: 0.9, risk: "low", note: "Khớp niche", days_left: 9, score: 0.82 },
+];
+
 export const mock = {
+  createPersona: (input: PersonaInput) => {
+    mockPersona.name = input.name;
+    mockPersona.niche = input.niche;
+    return delay({ ...mockPersona });
+  },
+  addTrends: (items: TrendInput[]) => {
+    items.forEach((t) =>
+      trends.push({ id: trends.length + 1, title: t.title, kind: t.kind, platform: t.platform, fit: 0.7,
+        risk: "low", note: "Điểm mẫu", days_left: 7, score: 0.6 }));
+    return delay(items.length);
+  },
+  trends: () => delay([...trends].sort((a, b) => b.score - a.score)),
   personas: () => delay([mockPersona]),
   pack: (day: string): Promise<DailyPack> =>
     delay({

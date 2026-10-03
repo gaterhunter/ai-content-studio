@@ -77,3 +77,39 @@ export interface PublishJob {
   status: PublishStatus;
   post_url: string | null;
 }
+
+export interface PersonaInput {
+  user_id: number;
+  name: string;
+  niche: string;
+  revenue_goal: "ads" | "affiliate" | "course" | "brand_deal";
+  platforms: Platform[];
+  questionnaire: {
+    audience: string;
+    tone: string;
+    banned_topics: string[];
+    catchphrases: string[];
+  };
+  sample_posts: string[];
+}
+
+export interface TrendInput {
+  platform: Platform;
+  title: string;
+  kind: "sound" | "format" | "topic" | "keyword";
+  description: string;
+  popularity: number;
+  estimated_expiry?: string | null;
+}
+
+export interface RankedTrend {
+  id: number;
+  title: string;
+  kind: string;
+  platform: string;
+  fit: number;
+  risk: "low" | "medium" | "high";
+  note: string;
+  days_left: number;
+  score: number;
+}

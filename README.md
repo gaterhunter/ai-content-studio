@@ -42,7 +42,7 @@ npm run dev                      # dữ liệu mẫu, không cần backend
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 npm run dev   # nối backend thật
 ```
 
-Chưa có đăng nhập: ô "Người dùng" nhập id user (mặc định 1) để lấy danh sách persona.
+Có ba trang: **Hôm nay** (duyệt gói nội dung), **Trend** (nhập trend và xem top trend hợp persona), **Tạo persona** (bảng hỏi và bài cũ). Chưa có đăng nhập: ô "Người dùng" ở trang chính nhập id user (mặc định 1).
 
 ## Chưa làm (cần quyết định hoặc ngoài MVP)
 
