@@ -1,4 +1,4 @@
-import type { DailyPack, Draft, DraftEdit, Persona, PersonaInput, PublishJob, RankedTrend, TrendInput } from "./types";
+import type { AppSettings, DailyPack, Draft, DraftEdit, KeyProvider, LlmProvider, Persona, PersonaInput, PublishJob, RankedTrend, TestResult, TrendInput } from "./types";
 
 export const mockPersona: Persona = {
   id: 1,
@@ -51,7 +51,28 @@ let trends: RankedTrend[] = [
   { id: 1, title: "Mẹo excel 1 phút", kind: "format", platform: "tiktok", fit: 0.9, risk: "low", note: "Khớp niche", days_left: 9, score: 0.82 },
 ];
 
+const emptyStatus = (w: string, f: string) => ({ configured: false, source: null, masked: null, error: null, writer_model: w, fast_model: f });
+const settings: AppSettings = {
+  provider: "mock",
+  providers: { gemini: emptyStatus("gemini-2.5-pro", "gemini-2.5-flash"), anthropic: emptyStatus("claude-opus-5-5", "claude-haiku-4-5") },
+  can_store_keys: true,
+};
+const snap = (): AppSettings => JSON.parse(JSON.stringify(settings));
+
 export const mock = {
+  settings: () => delay(snap()),
+  setProvider: (p: LlmProvider) => { settings.provider = p; return delay(snap()); },
+  saveKey: (p: KeyProvider, key: string) => {
+    Object.assign(settings.providers[p], { configured: true, source: "settings", masked: `••••${key.slice(-4)}` });
+    return delay(snap());
+  },
+  deleteKey: (p: KeyProvider) => {
+    Object.assign(settings.providers[p], { configured: false, source: null, masked: null });
+    if (settings.provider === p) settings.provider = "mock";
+    return delay(snap());
+  },
+  testKey: (p: KeyProvider): Promise<TestResult> =>
+    delay({ ok: settings.providers[p].configured, provider: p, message: settings.providers[p].configured ? "Kết nối thành công (dữ liệu mẫu)" : "Chưa có API key" }),
   createPersona: (input: PersonaInput) => {
     mockPersona.name = input.name;
     mockPersona.niche = input.niche;

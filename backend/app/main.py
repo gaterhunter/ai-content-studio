@@ -7,7 +7,7 @@ from fastapi.responses import JSONResponse
 from .config import get_settings
 from .db import Base, engine
 from .llm import LLMError, get_llm
-from .routers import analytics, contents, ideas, personas, trends
+from .routers import analytics, contents, ideas, personas, settings, trends
 
 
 @asynccontextmanager
@@ -36,5 +36,5 @@ def health():
     return {"ok": True, "llm": get_llm().name}
 
 
-for r in (personas.router, trends.router, ideas.router, contents.router, analytics.router):
+for r in (personas.router, trends.router, ideas.router, contents.router, analytics.router, settings.router):
     app.include_router(r, prefix="/api")

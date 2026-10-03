@@ -113,3 +113,27 @@ export interface RankedTrend {
   days_left: number;
   score: number;
 }
+
+export type LlmProvider = "mock" | "gemini" | "anthropic";
+export type KeyProvider = "gemini" | "anthropic";
+
+export interface ProviderStatus {
+  configured: boolean;
+  source: "settings" | "env" | null;
+  masked: string | null;
+  error: string | null;
+  writer_model: string;
+  fast_model: string;
+}
+
+export interface AppSettings {
+  provider: LlmProvider;
+  providers: Record<KeyProvider, ProviderStatus>;
+  can_store_keys: boolean;
+}
+
+export interface TestResult {
+  ok: boolean;
+  provider: string;
+  message: string;
+}

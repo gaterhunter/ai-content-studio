@@ -27,7 +27,7 @@ uvicorn app.main:app --reload
 pytest
 ```
 
-Gọi Claude thật: đặt `LLM_PROVIDER=anthropic` và `ANTHROPIC_API_KEY`. Mô hình viết dùng `LLM_WRITER_MODEL`, bước lọc trend dùng mô hình rẻ `LLM_FAST_MODEL`. Mọi lời gọi đi qua `app/llm/` nên đổi nhà cung cấp chỉ cần thêm một client.
+Gọi AI thật: vào trang **Cài đặt** trên giao diện, dán API key Gemini hoặc Claude (có hướng dẫn lấy key ngay trên trang), bấm "Thử kết nối" rồi "Dùng nhà cung cấp này". Key được mã hoá (Fernet) trước khi lưu DB nên server cần `TOKEN_ENCRYPTION_KEY`; nếu không muốn lưu qua giao diện thì đặt `GEMINI_API_KEY` hoặc `ANTHROPIC_API_KEY` và `LLM_PROVIDER=gemini|anthropic` làm biến môi trường (key lưu trong Cài đặt được ưu tiên hơn). Mô hình mặc định: Gemini `gemini-2.5-pro` (viết) và `gemini-2.5-flash` (lọc trend), Claude `claude-opus-5-5` và `claude-haiku-4-5`, đổi bằng `LLM_GEMINI_*_MODEL` / `LLM_WRITER_MODEL` / `LLM_FAST_MODEL`. Chưa có đăng nhập nên trang Cài đặt ai mở được cũng đổi được key: chỉ dùng cho bản thử riêng tư. Mọi lời gọi đi qua `app/llm/` nên đổi nhà cung cấp chỉ cần thêm một client.
 
 Luồng nhanh (Swagger ở `/docs`): `POST /api/users` → `POST /api/personas` → `POST /api/trends` → `GET /api/personas/{id}/daily-pack` → `PATCH /api/contents/{id}` → `POST /api/contents/{id}/approve` → `POST /api/publish-jobs/{id}/posted` → `POST /api/metrics`.
 
@@ -59,7 +59,7 @@ Một project Vercel chạy cả hai service từ `vercel.json` ở gốc repo, 
 
 Thiết lập một lần:
 1. Trên Vercel tạo project từ repo này, **để trống Root Directory** (gốc repo). Nếu có mục Application Preset thì chọn Services.
-2. Biến môi trường của project: `DATABASE_URL` (Postgres, ví dụ Neon; không đặt thì backend dùng SQLite trong `/tmp`, dữ liệu mất khi instance tái tạo, chỉ để chạy thử), `LLM_PROVIDER=anthropic` và `ANTHROPIC_API_KEY` nếu muốn gọi Claude thật, `TOKEN_ENCRYPTION_KEY` khi lưu token mạng xã hội.
+2. Biến môi trường của project: `DATABASE_URL` (Postgres, ví dụ Neon; không đặt thì backend dùng SQLite trong `/tmp`, dữ liệu mất khi instance tái tạo, chỉ để chạy thử), `GEMINI_API_KEY` hoặc `ANTHROPIC_API_KEY` nếu muốn đặt key bằng biến môi trường thay vì trang Cài đặt, `TOKEN_ENCRYPTION_KEY` (bắt buộc nếu muốn dán API key trong trang Cài đặt; tạo bằng `python -c "from cryptography.fernet import Fernet;print(Fernet.generate_key().decode())"`).
 3. Lấy `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` (chạy `vercel link` rồi xem `.vercel/project.json`) và tạo token ở Vercel → Account Settings → Tokens. Thêm chúng vào GitHub → Settings → Secrets and variables → Actions với tên `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID`.
 4. Nếu chỉ muốn deploy qua Actions, tắt tự deploy từ Git ở Vercel (Settings → Git), nếu không mỗi lần push sẽ có hai bản deploy.
 

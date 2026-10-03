@@ -1,5 +1,5 @@
 import { mock } from "./mock";
-import type { DailyPack, Draft, DraftEdit, Persona, PersonaInput, PublishJob, RankedTrend, TrendInput } from "./types";
+import type { AppSettings, DailyPack, Draft, DraftEdit, KeyProvider, LlmProvider, Persona, PersonaInput, PublishJob, RankedTrend, TestResult, TrendInput } from "./types";
 
 // Không đặt biến: dữ liệu mẫu. Đặt "/" để gọi API cùng domain, hoặc một URL đầy đủ để gọi backend riêng.
 const RAW_BASE = process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -24,7 +24,18 @@ async function http<T>(path: string, init?: RequestInit): Promise<T> {
 
 const json = (body: unknown): RequestInit => ({ method: "POST", body: JSON.stringify(body) });
 
+const put = (body: unknown): RequestInit => ({ method: "PUT", body: JSON.stringify(body) });
+
 export const api = {
+  settings: (): Promise<AppSettings> => (usingMock ? mock.settings() : http("/settings")),
+  setProvider: (provider: LlmProvider): Promise<AppSettings> =>
+    usingMock ? mock.setProvider(provider) : http("/settings/provider", put({ provider })),
+  saveKey: (provider: KeyProvider, apiKey: string): Promise<AppSettings> =>
+    usingMock ? mock.saveKey(provider, apiKey) : http(`/settings/keys/${provider}`, put({ api_key: apiKey })),
+  deleteKey: (provider: KeyProvider): Promise<AppSettings> =>
+    usingMock ? mock.deleteKey(provider) : http(`/settings/keys/${provider}`, { method: "DELETE" }),
+  testKey: (provider: KeyProvider): Promise<TestResult> =>
+    usingMock ? mock.testKey(provider) : http(`/settings/test/${provider}`, { method: "POST" }),
   ensureUser: (email: string, name: string): Promise<{ id: number }> =>
     usingMock ? Promise.resolve({ id: 1 }) : http("/users", json({ email, name })),
   createPersona: (input: PersonaInput): Promise<Persona> =>

@@ -7,6 +7,7 @@ const LINKS = [
   { href: "/", label: "Hôm nay" },
   { href: "/trends", label: "Trend" },
   { href: "/onboarding", label: "Tạo persona" },
+  { href: "/settings", label: "Cài đặt" },
 ];
 
 export default function Nav() {

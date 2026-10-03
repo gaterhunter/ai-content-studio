@@ -202,3 +202,32 @@ class RevenueIn(BaseModel):
     source: RevenueGoal
     amount_vnd: int = Field(ge=0)
     day: date
+
+
+class ProviderStatus(BaseModel):
+    configured: bool
+    source: str | None
+    masked: str | None
+    error: str | None
+    writer_model: str
+    fast_model: str
+
+
+class SettingsOut(BaseModel):
+    provider: str
+    providers: dict[str, ProviderStatus]
+    can_store_keys: bool
+
+
+class ProviderIn(BaseModel):
+    provider: str = Field(pattern="^(mock|gemini|anthropic)$")
+
+
+class ApiKeyIn(BaseModel):
+    api_key: str = Field(min_length=8, max_length=512)
+
+
+class TestResult(BaseModel):
+    ok: bool
+    provider: str
+    message: str

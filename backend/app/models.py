@@ -212,3 +212,12 @@ class Revenue(Base):
     source: Mapped[RevenueGoal] = mapped_column(Enum(RevenueGoal))
     amount_vnd: Mapped[int] = mapped_column(Integer)
     day: Mapped[date] = mapped_column(Date)
+
+
+class AppSetting(Base):
+    """Cài đặt toàn ứng dụng (MVP chưa có đăng nhập nên dùng chung): nhà cung cấp AI và khóa API đã mã hóa."""
+
+    __tablename__ = "app_settings"
+
+    key: Mapped[str] = mapped_column(String(64), primary_key=True)
+    value: Mapped[str] = mapped_column(Text)

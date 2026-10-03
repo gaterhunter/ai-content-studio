@@ -6,6 +6,9 @@ import pytest
 _tmp = tempfile.mkdtemp()
 os.environ["DATABASE_URL"] = f"sqlite:///{_tmp}/test.db"
 os.environ["LLM_PROVIDER"] = "mock"
+os.environ["TOKEN_ENCRYPTION_KEY"] = "Zm9yLXRlc3RzLW9ubHktMzItYnl0ZS1rZXktMTIzNDU="  # Fernet hợp lệ chỉ dùng cho test
+os.environ.pop("GEMINI_API_KEY", None)
+os.environ.pop("ANTHROPIC_API_KEY", None)
 
 from fastapi.testclient import TestClient  # noqa: E402
 
