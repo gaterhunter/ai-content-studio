@@ -31,9 +31,21 @@ Gọi Claude thật: đặt `LLM_PROVIDER=anthropic` và `ANTHROPIC_API_KEY`. M�
 
 Luồng nhanh (Swagger ở `/docs`): `POST /api/users` → `POST /api/personas` → `POST /api/trends` → `GET /api/personas/{id}/daily-pack` → `PATCH /api/contents/{id}` → `POST /api/contents/{id}/approve` → `POST /api/publish-jobs/{id}/posted` → `POST /api/metrics`.
 
+## Giao diện duyệt nội dung (frontend/)
+
+Next.js (App Router) + TypeScript + Tailwind. Trang chính là **gói nội dung theo ngày**: ý tưởng, từng nền tảng với các phương án (hook, kịch bản, caption, hashtag, CTA, điểm giọng), cảnh báo tuân thủ, sửa nhanh, duyệt và lên lịch một chạm, đánh dấu đã đăng.
+
+```bash
+cd frontend
+npm install
+npm run dev                      # dữ liệu mẫu, không cần backend
+NEXT_PUBLIC_API_BASE_URL=http://localhost:8000 npm run dev   # nối backend thật
+```
+
+Chưa có đăng nhập: ô "Người dùng" nhập id user (mặc định 1) để lấy danh sách persona.
+
 ## Chưa làm (cần quyết định hoặc ngoài MVP)
 
-- Giao diện Next.js cho trang duyệt nội dung.
 - Đăng qua API chính thức TikTok/YouTube/Meta (cần xin duyệt ứng dụng, mất nhiều tuần), mã hóa và lưu token.
 - Thu thập trend tự động, Video Studio (TTS, FFmpeg), Coach kiếm tiền, đăng nhập/xác thực, hàng đợi job, Alembic migration.
 - Các ngưỡng, giá gói và tỉ lệ phễu trong code là giả định ban đầu, cần kiểm chứng bằng phỏng vấn creator thật (giai đoạn 0).
